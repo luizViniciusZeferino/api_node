@@ -2,9 +2,12 @@
 
 const express = require('express') // framework web p/ node.js
 const bodyParser = require ('body-parser') // converte o conteúdo para json
+const mongoose = require('mongoose') // instancia do mogoose 
 
 const app = express() // instancia do express criada e atribuida a vairiavel 
 const router = express.Router() // Este roteador pode ser usado para organizar e modularizar as rotas da aplicação.
+
+mongoose.connect('mongodb+srv://luizvinicius1530:luiz123@nodestore.t9c0qhu.mongodb.net/')
 
 const indexRoute = require('./routes/index-route') // importando as rotas 
 const productRoute = require( './routes/product-route') 

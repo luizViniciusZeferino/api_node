@@ -28,7 +28,7 @@ function normalizePort(val) { // recebe um valor que representa uma porta (verif
 
 function onError(error) {   // 
 
-    if(errro.syscall !== 'listen') { // verifica se o tipo de chamado do sistema(syscall) associado ao erro não é listen, usado para configurar o servidor para aceitar conexão em determinado endereço e porta
+    if(errror.syscall !== 'listen') { // verifica se o tipo de chamado do sistema(syscall) associado ao erro não é listen, usado para configurar o servidor para aceitar conexão em determinado endereço e porta
         throw error
     }
 
