@@ -3,7 +3,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const schema = new Schema({ // squema será usado para definir a estrutura dos documentos no banco de dados.
+const schema = new Schema({ // schema será usado para definir a estrutura dos documentos no banco de dados.
     title:{   // titulo 
         type: String,
         required: true,
