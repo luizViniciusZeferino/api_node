@@ -65,7 +65,7 @@ exports.post = (req, res, next) => {
                 messege: 'Falha ao cadastrar produto!',
                 data: e 
         })
-        }) // salva o item no banco de dados
+    }) // salva o item no banco de dados
 } 
 
 exports.put = (req, res, next) => {
@@ -84,11 +84,23 @@ exports.put = (req, res, next) => {
         }).catch(e => {
             res.status(400).send({ 
                 messege: 'Falha ao atualizar produto!',
-                data: e })
+                data: e 
+            })
         })
 } 
 
 exports.delete = (req, res, next) => {
-    res.status(201).send(req.body)
-} 
+    Product
+        .findOneAndDelete(req.body.id)
+        .then(x => {
+            res.status(200).send({
+                messege: 'Produto excluido com sucesso!'
+            })
+        }).catch(e => {
+            res.status(400).send({ 
+                messege: 'Falha ao excluir produto!',
+                data: e 
+        })
+    })
+}
 
