@@ -28,6 +28,16 @@ exports.getBySlug = (req, res, next) => { // fazendo um get usando como parametr
     })
 } 
 
+exports.getById = (req, res, next) => {  
+    Product
+    .findById(req.params.id)
+    .then(data => { 
+        res.status(200).send(data) // resultado ou 
+    }).catch(e => {
+        res.status(400).send(e) // erro      
+    })
+} 
+
 exports.post = (req, res, next) => {
     let product = new Product(req.body) // instancio com o req.body, tudo que vem na requisição eu passo para o corpo do produto
     product
