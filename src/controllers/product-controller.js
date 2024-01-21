@@ -38,6 +38,20 @@ exports.getById = (req, res, next) => {
     })
 } 
 
+exports.getByTag = (req, res, next) => {  
+    Product
+    .find({
+        tags: req.params.tag,
+        active: true
+    })
+    .then(data => { 
+        res.status(200).send(data) // resultado ou 
+    }).catch(e => {
+        res.status(400).send(e) // erro      
+    })
+} 
+
+
 exports.post = (req, res, next) => {
     let product = new Product(req.body) // instancio com o req.body, tudo que vem na requisição eu passo para o corpo do produto
     product
