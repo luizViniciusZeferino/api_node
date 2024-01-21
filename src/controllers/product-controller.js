@@ -58,20 +58,34 @@ exports.post = (req, res, next) => {
         .save()
         .then(x => {
             res.status(201).send({
-                 messege: 'Produto cadastrado com sucesso!'})
+                 messege: 'Produto cadastrado com sucesso!'
+            })
         }).catch(e => {
             res.status(400).send({ 
                 messege: 'Falha ao cadastrar produto!',
-                data: e })
+                data: e 
+        })
         }) // salva o item no banco de dados
 } 
 
 exports.put = (req, res, next) => {
-    const id = req.params.id // forma de recuperar parametros que irão vir pela url 
-    res.status (200). send({
-        id: id, 
-        item: req.body // pegando o corpo da requisição
-    });  
+    Product
+        .findByIdAndUpdate(req.params.id, {
+            $set: { // setar oque veio da requisição p/ oque vair ser alterado
+                title: req.body.title,
+                description: req.body.description,
+                price: req.body.price,
+                slug: req.body.slug
+            }
+        }).then(x => {
+            res.status(200).send({
+                 messege: 'Produto atualizado com sucesso!'
+            })
+        }).catch(e => {
+            res.status(400).send({ 
+                messege: 'Falha ao atualizar produto!',
+                data: e })
+        })
 } 
 
 exports.delete = (req, res, next) => {
