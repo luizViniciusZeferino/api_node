@@ -3,6 +3,18 @@
 const mongoose = require('mongoose') // importando o mongoose também para poder importar o product 
 const Product = mongoose.model('Product') // importando o product da pasta models 
 
+exports.get = (req, res, next) => {
+    Product
+    .find({
+        active: true // trazer somente os itens que estão ativos / filtros
+    }, 'title price slug') // buscando somento o titulo preço e item / campos que quero trazer
+    .then(data => { 
+        res.status(200).send(data) // resultado ou 
+    }).catch(e => {
+        res.status(400).send(e) // erro 
+    })
+} 
+
 exports.post = (req, res, next) => {
     let product = new Product(req.body) // instancio com o req.body, tudo que vem na requisição eu passo para o corpo do produto
     product
