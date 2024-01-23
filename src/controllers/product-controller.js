@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose') // importando o mongoose também para poder importar o product 
 const Product = mongoose.model('Product') // importando o product da pasta models 
+const ValidationContract = require('../validator/fluent.validator')
 
 exports.get = (req, res, next) => {
     Product
@@ -53,6 +54,17 @@ exports.getByTag = (req, res, next) => {
 
 
 exports.post = (req, res, next) => {
+    let contract = new ValidationContract() // contract existe para diminuir toda a quantidade de if que teria para fazer as validações
+    contract.hasMinLen(req.body.title, 3, 'O titulo é obrigatório') // hasMinLen verifica se a string tem o tamanho minimo
+    contract.hasMinLen(req.body.slug, 3, 'O slug é obrigatório')
+    contract.hasMinLen(req.body.description, 3, 'A descrição é obrigatória')
+
+    //se os dados forem inválidos
+    if(!contract.isValid()) {
+        res.status(400).send(contract.errors()).end()
+        return
+    }
+
     let product = new Product(req.body) // instancio com o req.body, tudo que vem na requisição eu passo para o corpo do produto
     product
         .save()
