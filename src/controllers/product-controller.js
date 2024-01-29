@@ -3,13 +3,13 @@
 const mongoose = require('mongoose') // importando o mongoose também para poder importar o product 
 const Product = mongoose.model('Product') // importando o product da pasta models 
 const ValidationContract = require('../validator/fluent.validator')
+const repository = require('../repositories/product-repository')
 
 exports.get = (req, res, next) => {
-    Product
-    .find({
-        active: true // trazer somente os itens que estão ativos / filtros
-    }, 'title price slug') // buscando somento o titulo preço e item / campos que quero trazer
+   repository
+    .get()
     .then(data => { 
+        console.log('Dado certo', data)
         res.status(200).send(data) // resultado ou 
     }).catch(e => {
         res.status(400).send(e) // erro 
@@ -17,11 +17,8 @@ exports.get = (req, res, next) => {
 } 
 
 exports.getBySlug = (req, res, next) => { // fazendo um get usando como parametro o Slug do produto 
-    Product
-    .findOne({ // tras o primeiro documento que atende os critérios de consulta se não trás como array na consulta 
-        slug: req.params.slug,
-        active: true // trazer somente os itens que estão ativos / filtros
-    }, 'title description price slug tags') // buscando somento o titulo preço e item / campos que quero trazer
+    repository
+    .getBySlug(req.params.slug)
     .then(data => { 
         res.status(200).send(data) // resultado ou 
     }).catch(e => {
@@ -30,8 +27,8 @@ exports.getBySlug = (req, res, next) => { // fazendo um get usando como parametr
 } 
 
 exports.getById = (req, res, next) => {  
-    Product
-    .findById(req.params.id)
+    repository
+    .getById(req.params.id)
     .then(data => { 
         res.status(200).send(data) // resultado ou 
     }).catch(e => {
@@ -40,16 +37,13 @@ exports.getById = (req, res, next) => {
 } 
 
 exports.getByTag = (req, res, next) => {  
-    Product
-    .find({
-        tags: req.params.tag,
-        active: true
-    })
-    .then(data => { 
-        res.status(200).send(data) // resultado ou 
-    }).catch(e => {
-        res.status(400).send(e) // erro      
-    })
+    repository
+        .getByTag(req.params.tag)
+        .then(data => { 
+            res.status(200).send(data) // resultado ou 
+        }).catch(e => {
+            res.status(400).send(e) // erro      
+        })
 } 
 
 
@@ -64,10 +58,8 @@ exports.post = (req, res, next) => {
         res.status(400).send(contract.errors()).end()
         return
     }
-
-    let product = new Product(req.body) // instancio com o req.body, tudo que vem na requisição eu passo para o corpo do produto
-    product
-        .save()
+    repository
+        .create(req.body)
         .then(x => {
             res.status(201).send({
                  messege: 'Produto cadastrado com sucesso!'
@@ -81,15 +73,9 @@ exports.post = (req, res, next) => {
 } 
 
 exports.put = (req, res, next) => {
-    Product
-        .findByIdAndUpdate(req.params.id, {
-            $set: { // setar oque veio da requisição p/ oque vair ser alterado
-                title: req.body.title,
-                description: req.body.description,
-                price: req.body.price,
-                slug: req.body.slug
-            }
-        }).then(x => {
+    repository
+        .update(req.params.id, req.body)
+        .then(x => {
             res.status(200).send({
                  messege: 'Produto atualizado com sucesso!'
             })
@@ -102,8 +88,7 @@ exports.put = (req, res, next) => {
 } 
 
 exports.delete = (req, res, next) => {
-    Product
-        .findOneAndDelete(req.body.id)
+    repository.delete(req.body.id)
         .then(x => {
             res.status(200).send({
                 messege: 'Produto excluido com sucesso!'
