@@ -15,11 +15,13 @@ const Order = require('./models/order')
 
 const indexRoute = require('./routes/index-route') // importando as rotas 
 const productRoute = require( './routes/product-route') 
+const customerRoute = require( './routes/customer-route')
 
 app.use(bodyParser.json()) // conteúdo convertido para JSON 
 app.use(bodyParser.urlencoded({extended: false})) // codificar url's
 
 app.use ('/', indexRoute) // rotas associadas ao aplicativo axpress  
-app.use ('/products', productRoute) // as rotas definidas nos módulos importados estarão acessiveis nos caminhos correspondentes. 
+app.use ('/products', productRoute)
+app.use ('/customer', customerRoute) // as rotas definidas nos módulos importados estarão acessiveis nos caminhos correspondentes. 
 
 module.exports = app
