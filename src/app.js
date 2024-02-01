@@ -10,6 +10,8 @@ const router = express.Router() // Este roteador pode ser usado para organizar e
 mongoose.connect('mongodb+srv://usuario:senha@cluster0.itctjh3.mongodb.net/')
 
 const product = require('./models/product')
+const Customer = require('./models/customer')
+const Order = require('./models/order')
 
 const indexRoute = require('./routes/index-route') // importando as rotas 
 const productRoute = require( './routes/product-route') 
