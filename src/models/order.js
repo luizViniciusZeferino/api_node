@@ -4,21 +4,21 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const schema = new Schema({ // schema será usado para definir a estrutura dos documentos no banco de dados.
-      custumer:{    
+      customer:{    
         type: mongoose.Schema.Types.ObjectId, //para referenciar um cliente
-        ref: 'Custumer', 
+        ref: 'Customer', 
       },  
       number:{   
         type: String,
         required: true, 
       },  
-      createDate:{   
+      createDate: {
         type: Date,
-        required: true, 
+        required: true,
         default: Date.now
-      },  
+      },
       status:{   
-        type: Date,
+        type: String,
         required: true,
         enum: ['created', 'done'], // só pode receber o created e done 
         default: 'created'
