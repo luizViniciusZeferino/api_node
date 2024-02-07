@@ -8,7 +8,7 @@ const config = require('./config')
 const app = express() // instancia do express criada e atribuida a vairiavel 
 const router = express.Router() // Este roteador pode ser usado para organizar e modularizar as rotas da aplicação.
 
-mongoose.connect(config.connectionString)
+mongoose.connect(config.connectionString) 
 
 const product = require('./models/product')
 const Customer = require('./models/customer')

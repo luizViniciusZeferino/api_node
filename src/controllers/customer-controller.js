@@ -2,6 +2,7 @@
 
 const ValidationContract = require('../validator/fluent.validator')
 const repository = require('../repositories/customer-repository')
+const md5 = require('md5')
 
 exports.post = async (req, res, next) => {
     let contract = new ValidationContract() // contract existe para diminuir toda a quantidade de if que teria para fazer as validações
@@ -15,7 +16,11 @@ exports.post = async (req, res, next) => {
         return
     }
     try {
-        await repository.create(req.body)
+        await repository.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: md5(req.body.password + global.SALT_KEY) // incriptando a senha do usuário além de adicionar a senha a salt key
+        })
         res.status(201).send({
             messege: 'Cliente cadastrado com sucesso!'
         }) 
