@@ -2,6 +2,9 @@
 
 const ValidationContract = require('../validator/fluent.validator')
 const repository = require('../repositories/product-repository')
+const azure = require('azure-storage')
+const guid = require('guid')
+const config = require('../config')
 
 exports.get = async(req, res, next) => {
     try {
@@ -60,11 +63,41 @@ exports.post = async (req, res, next) => {
         return
     }
     try {
-        await repository.create(req.body)
+        //Cria o blob service
+        const blobsvc = azure.createBlobService(config.containerConnectionString) // criando blob usando a conection string
+
+        let filename = guid.raw().toString() + '.jpg' // criando nome de arquivo unica para imagem a ser salva
+        let rawdata = req.body.image 
+        let matches = rawdata.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+        
+        if (matches && matches.length >= 1) {
+            let type = matches[1]
+            let buffer = Buffer.from(matches[2], 'base64') // convertendo os dados base64
+
+            // salva a imagem 
+        blobsvc.createBlockBlobFromText('product-images', filename, buffer, {
+            contentType: type 
+        }, function (error, result, response) {
+            if (error) {
+                filename = 'default-product.png'
+            }
+        })
+        } 
+        
+        await repository.create({
+            title: req.body. title,
+            slug: req.body.slug,
+            description: req.body.description,
+            price: req.body.price,
+            active: true,
+            tags: req.body.tags,
+            image: 'https://nodestore1.blob.core.windows.net/product-images/' + filename 
+        })
         res.status(201).send({
             messege: 'Produto cadastrado com sucesso!'
         }) 
     } catch (e) {
+        console.log(e)
         res.status(500).send({
             message: 'Falha ao processar sua requisição'
         })

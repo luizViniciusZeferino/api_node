@@ -32,7 +32,12 @@ const schema = new Schema({ // schema será usado para definir a estrutura dos d
     tags: [{ // É uma lista de strings que representam as tags associadas ao produto
         type: String,
         required: true
-      }]
+      }],
+    image:{   // titulo 
+      type: String,
+      required: true,
+      trim: true 
+      },
 
 })
 
