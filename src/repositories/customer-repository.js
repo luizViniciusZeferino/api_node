@@ -7,3 +7,11 @@ exports.create = async(data) => {
     let customer = new Customer(data) // instancio com o req.body, tudo que vem na requisição eu passo para o corpo do produto
     await customer.save()
 }
+
+exports.authenticate = async(data) => {
+    const res = await Customer.findOne({ // await é para aguardar a execução do product.find
+        email: data.email, 
+        password: data.password    
+    }) 
+    return res
+}
