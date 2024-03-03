@@ -2,6 +2,8 @@
 
 const repository = require('../repositories/order-repository')
 const guid = require('guid')
+const md5 = require('md5')
+const authService = require('../services/auth-service')
 
 exports.get = async(req, res, next) => {
     try {
@@ -14,20 +16,22 @@ exports.get = async(req, res, next) => {
     }
 } 
 
-exports.post = async (req, res, next) => { 
+exports.post = async (req, res, next) => {
     try {
+        const token = req.body.token || req.query.token || req.headers['x-access-token'];  // recupera o token
+        const data = await authService.decodeToken(token); // decodifica o token
+
         await repository.create({
-            customer: req.body.customer,
-            number: guid.raw().substring(0,6), // guid vai gerar um número e vou pegar os 6 primeiros caracteres
-            items: req.body.items
-        })
+            customer: data.id,
+            number: guid.raw().substring(0, 6),
+            items: req.body.items // incriptando a senha do usuário além de adicionar a senha a salt key
+        });
         res.status(201).send({
             message: 'Pedido cadastrado com sucesso!'
-        }) 
+        }); 
     } catch (e) {
-        console.error(e)
         res.status(500).send({
-            message: 'Falha ao processar sua requisição'
-        })
+            message: "Falha ao processar sua requisição"
+        });
     }
 }

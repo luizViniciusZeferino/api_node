@@ -18,7 +18,8 @@
     "http": "^0.0.1-security",
     "jsonwebtoken": "^7.4.0",
     "md5": "^2.3.0",
-    "mongoose": "^8.0.4"
+    "mongoose": "^8.0.4",
+    "papaparse": "^5.4.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

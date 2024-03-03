@@ -5,6 +5,8 @@ const repository = require('../repositories/customer-repository')
 const md5 = require('md5')
 const authService = require('../services/auth-service')
 
+
+
 exports.post = async (req, res, next) => {
     let contract = new ValidationContract() // contract existe para diminuir toda a quantidade de if que teria para fazer as validações
     contract.hasMinLen(req.body.name, 3, 'O nome deve conter pelo menos 3 caracteres') // hasMinLen verifica se a string tem o tamanho minimo
@@ -35,7 +37,6 @@ exports.post = async (req, res, next) => {
 exports.authenticate = async (req, res, next) => {
     try {
         const customer = await repository.authenticate({
-            name: req.body.name,
             email: req.body.email,
             password: md5(req.body.password + global.SALT_KEY) // incriptando a senha do usuário além de adicionar a senha a salt key
         })
@@ -47,7 +48,8 @@ exports.authenticate = async (req, res, next) => {
             return
         }
 
-        const token = await authService.generateToken({
+        const token = await authService.generateToken({ // tudo que for aqui, ficara dentro do token como json
+            id: customer._id,
             email: customer.email, 
             name: customer.name
         })
@@ -65,3 +67,4 @@ exports.authenticate = async (req, res, next) => {
         })
     }
 }
+
