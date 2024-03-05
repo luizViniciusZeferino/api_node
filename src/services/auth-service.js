@@ -29,3 +29,29 @@ exports.authorize = function (req, res, next) { // serve como interceptador "blo
         });
     }
 };
+
+exports.isAdmin = function (req, res, next) { // verificando se usuário é admin 
+    let token = req.body.token || req.query.token || req.headers['x-access-token']; // recebo token
+
+    if (!token) {
+        res.status(401).json({ // se nao tiver token erro 401 
+            message: 'Token Inválido'
+        });
+    } else {
+        jwt.verify(token, global.SALT_KEY, function (error, decoded) {
+            if (error) {
+                res.status(401).json({
+                    message: 'Token Inválido' // se nao conseguir desencriptar o token 
+                });
+            } else {
+                if (decoded.roles.includes('admin')) { // para saber se uma string esta dentro de um array 
+                    next();
+                } else {
+                    res.status(403).json({
+                        message: 'Esta funcionalidade é restrita para administradores'
+                    });
+                }
+            }
+        });
+    }
+};

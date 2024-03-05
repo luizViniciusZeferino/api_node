@@ -33,7 +33,7 @@ const schema = new Schema({ // schema será usado para definir a estrutura dos d
         type: String,
         required: true
       }],
-    image:{   // titulo 
+    image:{    
       type: String,
       required: true,
       trim: true 
