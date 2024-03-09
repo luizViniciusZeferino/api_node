@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 
 const schema = new Schema({ // schema será usado para definir a estrutura dos documentos no banco de dados.
       customer:{    
-        type: mongoose.Schema.Types.ObjectId, //para referenciar um cliente
+        type: mongoose.Schema.Types.ObjectId, // para referenciar um cliente
         ref: 'Customer', 
       },  
       number:{   

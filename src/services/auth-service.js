@@ -5,7 +5,7 @@ exports.generateToken = async (data) => { // dados que quero inputar no token
     return jwt.sign(data, global.SALT_KEY, { expiresIn: '1d' }); // expiresIn seria o tempo de expiração do token
 }
 
-exports.decodeToken = async (token) => { 
+exports.decodeToken = async (token) => { // verificando a autenticidade do token
     let data = await jwt.verify(token, global.SALT_KEY); // Tento verificar o token 
     return data;
 }

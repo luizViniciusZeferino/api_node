@@ -22,7 +22,7 @@ const orderRoute = require( './routes/order-route')
 app.use(bodyParser.json({limit: '5mb'})) // o limitie do corpo do json que vou receber será limitado em 5 megas
 app.use(bodyParser.urlencoded({extended: false})) // codificar url's
 
-// Habilita o CORS
+// Habilita o CORS (Cross-Origin Resource Sharing)
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token')

@@ -10,7 +10,7 @@ const server = http.createServer(app); // createServer é um método que aceita 
 server.listen(port); // listen é um método que faz com que o servidor comece a escutar através de conexões, aceita um ou mais argumento sendo um deles o número da porta em que o servidor deve escutar 
 server.on('error', onError);
 server.on('listening', onListening); // on é um método para registrar ou vincular funções de retorno de chamada. Recebe dois argumentos: nome do evento e a função de retorno de chamada associada ao evento. 
-console.log('API rodando na porta' + port);
+console.log(`APi rodando na porta ${port}`);
 
 function normalizePort(val) { // recebe um valor que representa uma porta (verificando se a porta é um inteiro válido)
     const port = parseInt(val, 10) // converte o valor val para um inteiro 10 é base númerica (decimal)

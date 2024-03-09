@@ -49,7 +49,6 @@ exports.getByTag = async (req, res, next) => {
         })
     }
 }    
-   
     
 exports.post = async (req, res, next) => {
     let contract = new ValidationContract() // contract existe para diminuir toda a quantidade de if que teria para fazer as validações
